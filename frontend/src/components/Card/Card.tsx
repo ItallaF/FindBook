@@ -2,13 +2,15 @@ import { useCallback } from 'react';
 import { Button } from '../Button/Button';
 import { Tag } from '../Tag/Tag';
 import { useNavigate } from 'react-router-dom';
+import { Book } from '../Contexts/BooksContext';
 
 type Props = {
-  id: 'string';
+  id: string;
+  book: Book;
 };
 
 
-export function Card({ id }: Props) {
+export function Card({ id, book }: Props) {
   const navigate = useNavigate();
   const handleSelectBook = useCallback(() => {
     navigate(`/${id}`);
@@ -17,19 +19,15 @@ export function Card({ id }: Props) {
   return (
     <div className='p-4 grid grid-cols-3 gap-3 shadow-lg rounded-lg border border-gray-100 max-w-lg w-full'>
       <img
-        src='https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/allen.jpg'
+        src={book.thumbnailUrl}
         alt=''
         className='col-span-1 w-full rounded-lg'
       />
       <div className='col-span-2'>
-        <p className='font-bold text-2xl text-evergreen'>Codigo Limpo</p>
-        <p className='font-light text-lg text-evergrayLight mb-2'>Autor</p>
-        <Tag title={'Drama'} className='mb-3' />
-        <p><strong>Sinopse:</strong>
-          Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Cras ullamcorper erat faucibus justo luctus gravida.
-          In hac habitasse platea dictumst. Curabitur at massa vel nulla
-          pulvinar dignissim
+        <p className='font-bold text-2xl text-evergreen'>{book.title}</p>
+        <p className='font-light text-lg text-evergrayLight mb-2'>{book.author[0]}</p>
+        <Tag title={book.categories[0]} className='mb-3' />
+        <p><strong>Sinopse:</strong>{book.shortDescription}
         </p>
         <Button title='Ver mais' variant='light' className='w-1/2' onClick={handleSelectBook} />
       </div>
